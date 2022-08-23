@@ -3,6 +3,14 @@ package com.example;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.boot.MetadataSources;
+import org.hibernate.boot.registry.StandardServiceRegistry;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+
+import com.service.User;
 
 import java.io.IOException;
 import java.net.URI;
@@ -35,6 +43,31 @@ public class Main {
      * @throws IOException
      */
     public static void main(String[] args) throws IOException {
+        final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
+        .configure() // configures settings from hibernate.cfg.xml
+        .build();
+
+        try {
+            SessionFactory factory = new MetadataSources(registry)
+                    .buildMetadata().buildSessionFactory();
+            Session session = factory.openSession();
+            Transaction transaction = session.beginTransaction();
+
+            User user = new User();
+            user.setUsername("John");
+            user.setPasswordHash("asddfhrsgsdfgdsfa");
+
+            session.persist(user);
+            transaction.commit();
+            session.flush();
+            session.close();
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+            ex.printStackTrace();
+            StandardServiceRegistryBuilder.destroy(registry);
+        
+        }
+
         final HttpServer server = startServer();
         System.out.println(String.format("Jersey app started with endpoints available at "
                 + "%s%nHit Ctrl-C to stop it...", BASE_URI));
