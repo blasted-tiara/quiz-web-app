@@ -2,9 +2,12 @@
 
 ## Setup
 
-This project uses Maven for build automation and Hibernate with MySQL database server for persistence layer.
-In order to run the commands below, you will have to install and add to your PATH variable java 11 sdk and maven.
-You will also need to have mysql server running locally with the following configuration:
+This project uses `Maven` for build automation and `Hibernate` with `MySQL` database server for persistence layer.
+In order to run the commands below, you will have to install:
+* `Maven` (add it to `PATH` environment variable)
+* `Java 11` (add it to `JAVA_HOME` environment variable)
+
+You will also need to have `mysql` server running locally with the following configuration:
 ```json
 {
     "hostname": "localhost",
