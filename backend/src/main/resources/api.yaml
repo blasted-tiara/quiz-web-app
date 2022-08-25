@@ -92,6 +92,14 @@ paths:
       - quiz
       summary: Update existing quiz
       operationId: updateQuiz
+      parameters:
+        - name: id
+          in: path
+          description: Quiz ID
+          required: true
+          schema:
+            type: integer
+            format: int64
       responses:
         '400':
           description: Invalid ID supplied
