@@ -118,6 +118,36 @@ paths:
                 title:
                   description: Quiz title
                   type: string
+  /admin/quizzes/{id}/uploadImage:
+    post:
+      tags:
+        - quiz
+      summary: Uploads an image
+      operationId: uploadFile
+      parameters:
+        - name: id
+          in: path
+          description: Quiz ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+      security:
+        - user_auth: []
+      requestBody:
+        content:
+          application/octet-stream:
+            schema:
+              type: string
+              format: binary
+            
 externalDocs:
   description: Find out more about Swagger
   url: 'http://swagger.io'
