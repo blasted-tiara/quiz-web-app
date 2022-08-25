@@ -1,3 +1,6 @@
 {
-    "java.configuration.updateBuildConfiguration": "interactive"
+    "java.configuration.updateBuildConfiguration": "interactive",
+    "yaml.schemas": {
+        "swaggerviewer:openapi": "file:///c%3A/Users/funko/Projects/RWA/quiz-web-app/backend/src/main/resources/api.yaml"
+    }
 }
