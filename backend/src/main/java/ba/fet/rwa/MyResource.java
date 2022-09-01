@@ -1,4 +1,4 @@
-package com.example;
+package ba.fet.rwa;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;

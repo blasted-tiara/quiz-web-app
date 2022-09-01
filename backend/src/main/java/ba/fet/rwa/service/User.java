@@ -1,4 +1,4 @@
-package com.service;
+package ba.fet.rwa.service;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

@@ -2,11 +2,11 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.example</groupId>
-    <artifactId>simple-service</artifactId>
+    <groupId>ba.fet.rwa</groupId>
+    <artifactId>quiz-app</artifactId>
     <packaging>jar</packaging>
     <version>1.0-SNAPSHOT</version>
-    <name>simple-service</name>
+    <name>quiz-app</name>
 
     <dependencies>
         <dependency>
@@ -60,7 +60,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <mainClass>com.example.Main</mainClass>
+                    <mainClass>ba.fet.rwa.Main</mainClass>
                 </configuration>
             </plugin>
         </plugins>

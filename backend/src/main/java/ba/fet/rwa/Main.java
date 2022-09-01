@@ -1,4 +1,4 @@
-package com.example;
+package ba.fet.rwa;
 
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
@@ -10,7 +10,7 @@ import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
-import com.service.User;
+import ba.fet.rwa.service.User;
 
 import java.io.IOException;
 import java.net.URI;
@@ -30,7 +30,7 @@ public class Main {
     public static HttpServer startServer() {
         // create a resource config that scans for JAX-RS resources and providers
         // in com.example package
-        final ResourceConfig rc = new ResourceConfig().packages("com.example");
+        final ResourceConfig rc = new ResourceConfig().packages("ba.fet.rwa");
 
         // create and start a new instance of grizzly http server
         // exposing the Jersey application at BASE_URI
