@@ -9,10 +9,16 @@ info:
   license:
     name: Apache 2.0
     url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+servers:
+  - url: http://localhost:8080
 
 tags:
   - name: quiz
     description: Quiz operations
+  - name: question
+    description: Question operations
+  - name: answer
+    description: Answer operations
 
 paths:
   /admin/quizzes:
@@ -41,8 +47,8 @@ paths:
       summary: Add new quiz
       operationId: addQuiz
       responses:
-        '200':
-          description: successful operation
+        '201':
+          description: Quiz created
           content:
             application/json:
               schema:
@@ -118,11 +124,35 @@ paths:
                 title:
                   description: Quiz title
                   type: string
+    delete:
+      tags:
+        - quiz
+      summary: Delete quiz by ID
+      operationId: deleteQuiz
+      parameters:
+        - name: id
+          in: path
+          description: Quiz ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '204':
+          description: Deleted successfully
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Resource not found
+        '405':
+          description: Validation exception
+      security:
+        - user_auth: []
   /admin/quizzes/{id}/uploadImage:
     post:
       tags:
         - quiz
-      summary: Uploads an image
+      summary: Upload new quiz image
       operationId: uploadFile
       parameters:
         - name: id
@@ -147,7 +177,274 @@ paths:
             schema:
               type: string
               format: binary
-            
+  /admin/quizzes/{quizId}/swapQuestionOrder:
+    put:
+      tags:
+        - quiz
+      summary: Swap the order of two questions
+      operationId: swapQuestionsOrder
+      parameters:
+        - name: id
+          in: path
+          description: Quiz ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Swap operation successful
+        '400':
+          description: Invalid question IDs
+        '405':
+          description: Validation exception
+  /admin/quizzes/{quizId}/questions:
+    post:
+      tags:
+        - question
+      summary: Add new question
+      operationId: addQuestion
+      parameters:
+        - name: quizId
+          in: path
+          description: Quiz ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '201':
+          description: Question created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Question'
+      security:
+        - user_auth: []
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                text:
+                  description: Question text
+                  type: string
+                time:
+                  description: Time to answer
+                  type: integer
+                  format: int32
+                points:
+                  description: Points for correct answer
+                  type: integer
+                  format: int32
+  /admin/quizzes/{quizId}/questions/{questionId}:
+    put:
+      tags:
+        - question
+      summary: Update existing question
+      operationId: updateQuestion
+      parameters:
+        - name: quizId
+          in: path
+          description: Quiz ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: questionId
+          in: path
+          description: Question ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Question not found
+        '405':
+          description: Validation exception      
+      security:
+        - user_auth: []
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                text:
+                  description: Question text
+                  type: string
+                time:
+                  description: Time to answer
+                  type: integer
+                  format: int32
+                points:
+                  description: Points for correct answer
+                  type: integer
+                  format: int32
+    delete:
+      tags:
+        - question
+      summary: Delete question by ID
+      operationId: deleteQuestion
+      parameters:
+        - name: quizId
+          in: path
+          description: Quiz ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: questionId
+          in: path
+          description: Question ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '204':
+          description: Deleted successfully
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Resource not found
+        '405':
+          description: Validation exception
+      security:
+        - user_auth: []
+  /admin/quizzes/{quizId}/questions/{questionId}/answers:
+    post:
+      tags:
+        - answer
+      summary: Add new answer
+      operationId: addAnswer
+      parameters:
+        - name: quizId
+          in: path
+          description: Quiz ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: questionId
+          in: path
+          description: Question ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '201':
+          description: Answer created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Answer'
+      security:
+        - user_auth: []
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                text:
+                  description: Answer text
+                  type: string
+                correct:
+                  description: Is answer correct
+                  type: boolean
+  /admin/quizzes/{quizId}/questions/{questionId}/answers/{answerId}:
+    put:
+      tags:
+        - answer
+      summary: Update existing answer
+      operationId: updateAnswer
+      parameters:
+        - name: quizId
+          in: path
+          description: Quiz ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: questionId
+          in: path
+          description: Question ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: answerId
+          in: path
+          description: Answer ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Question not found
+        '405':
+          description: Validation exception      
+      security:
+        - user_auth: []
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                text:
+                  description: Answer text
+                  type: string
+                correct:
+                  description: Is answer correct
+                  type: boolean
+    delete:
+      tags:
+        - answer
+      summary: Delete answer by ID
+      operationId: deleteAnswer
+      parameters:
+        - name: quizId
+          in: path
+          description: Quiz ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: questionId
+          in: path
+          description: Question ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: answerId
+          in: path
+          description: Answer ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '204':
+          description: Deleted successfully
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Resource not found
+        '405':
+          description: Validation exception
+      security:
+        - user_auth: []
 externalDocs:
   description: Find out more about Swagger
   url: 'http://swagger.io'
