@@ -184,7 +184,7 @@ paths:
       summary: Swap the order of two questions
       operationId: swapQuestionsOrder
       parameters:
-        - name: id
+        - name: quizId
           in: path
           description: Quiz ID
           required: true
