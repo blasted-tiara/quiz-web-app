@@ -1,6 +1,7 @@
 package ba.fet.rwa;
 
 import org.glassfish.grizzly.http.server.HttpServer;
+import org.glassfish.grizzly.http.server.StaticHttpHandler;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.hibernate.Session;
@@ -69,6 +70,7 @@ public class Main {
         }
 
         final HttpServer server = startServer();
+        server.getServerConfiguration().addHttpHandler(new StaticHttpHandler("src/main/webapp"), "/");
         System.out.println(String.format("Jersey app started with endpoints available at "
                 + "%s%nHit Ctrl-C to stop it...", BASE_URI));
         System.in.read();
