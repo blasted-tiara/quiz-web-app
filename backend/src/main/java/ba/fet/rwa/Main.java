@@ -11,7 +11,7 @@ import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
-import ba.fet.rwa.service.User;
+import ba.fet.rwa.model.User;
 
 import java.io.IOException;
 import java.net.URI;
@@ -56,9 +56,9 @@ public class Main {
 
             User user = new User();
             user.setUsername("John");
-            user.setPasswordHash("asddfhrsgsdfgdsfa");
+            user.setPassword("asddfhrsgsdfgdsfa");
 
-            session.persist(user);
+            //session.persist(user);
             transaction.commit();
             session.flush();
             session.close();

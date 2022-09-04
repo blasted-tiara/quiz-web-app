@@ -5,16 +5,28 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-/**
- * User
- */
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaJerseyServerCodegen", date = "2022-09-02T12:22:25.331Z[GMT]")public class User   {
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Table(name = "User")
+@Entity
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaJerseyServerCodegen", date = "2022-09-02T12:22:25.331Z[GMT]")
+public class User {
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
+  @Column(name = "ID")
   @JsonProperty("id")
   private Long id = null;
 
+  @Column(name = "USERNAME", nullable = false, unique = true)
   @JsonProperty("username")
   private String username = null;
 
+  @Column(name = "PASSWORD", nullable = false)
   @JsonProperty("password")
   private String password = null;
 
@@ -23,9 +35,9 @@ import com.fasterxml.jackson.annotation.JsonValue;
    */
   public enum RoleEnum {
     ADMIN("Admin"),
-    
+
     EDITOR("Editor"),
-    
+
     PLAYER("Player");
 
     private String value;
@@ -50,15 +62,20 @@ import com.fasterxml.jackson.annotation.JsonValue;
       return null;
     }
   }
+
+	@Column(name = "ROLE")
   @JsonProperty("role")
   private RoleEnum role = null;
 
+	@Column(name = "FIRST_NAME")
   @JsonProperty("firstName")
   private String firstName = null;
 
+	@Column(name = "LAST_NAME")
   @JsonProperty("lastName")
   private String lastName = null;
 
+	@Column(name = "EMAIL")
   @JsonProperty("email")
   private String email = null;
 
@@ -69,6 +86,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
   /**
    * Get id
+   * 
    * @return id
    **/
   @JsonProperty("id")
@@ -87,6 +105,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
   /**
    * Get username
+   * 
    * @return username
    **/
   @JsonProperty("username")
@@ -105,6 +124,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
   /**
    * Get password
+   * 
    * @return password
    **/
   @JsonProperty("password")
@@ -123,6 +143,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
   /**
    * Role of the user
+   * 
    * @return role
    **/
   @JsonProperty("role")
@@ -141,6 +162,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
   /**
    * Get firstName
+   * 
    * @return firstName
    **/
   @JsonProperty("firstName")
@@ -159,6 +181,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
   /**
    * Get lastName
+   * 
    * @return lastName
    **/
   @JsonProperty("lastName")
@@ -177,6 +200,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
   /**
    * Get email
+   * 
    * @return email
    **/
   @JsonProperty("email")
@@ -187,7 +211,6 @@ import com.fasterxml.jackson.annotation.JsonValue;
   public void setEmail(String email) {
     this.email = email;
   }
-
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -212,12 +235,11 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return Objects.hash(id, username, password, role, firstName, lastName, email);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class User {\n");
-    
+
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    username: ").append(toIndentedString(username)).append("\n");
     sb.append("    password: ").append(toIndentedString(password)).append("\n");

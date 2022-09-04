@@ -3,15 +3,36 @@ package ba.fet.rwa.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+
+@Table(name = "Answer")
+@Entity
 public class Answer {
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
+	@Column(name = "ID")
   @JsonProperty("id")
   private Long id = null;
 
+	@Column(name = "TEXT")
   @JsonProperty("text")
   private String text = null;
 
+	@Column(name = "CORRECT")
   @JsonProperty("correct")
   private Boolean correct = null;
+  
+  @JoinColumn(name = "QUESTION")
+  @ManyToOne
+  @JsonProperty("question")
+  private Question question = null;
 
   public Answer id(Long id) {
     this.id = id;

@@ -2,23 +2,46 @@ package ba.fet.rwa.model;
 
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+
 import java.util.ArrayList;
 import java.util.List;
 import javax.validation.Valid;
 
+@Table(name="Quiz")
+@Entity
 public class Quiz {
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
+	@Column(name = "ID")
   @JsonProperty("id")
   private Long id = null;
 
+	@Column(name = "TITLE", unique = true)
   @JsonProperty("title")
   private String title = null;
 
+	@Column(name = "PIC_URL")
   @JsonProperty("picUrl")
   private String picUrl = null;
 
+  @ManyToOne
+	@JoinColumn(name = "CREATOR")
   @JsonProperty("creator")
   private User creator = null;
 
+  @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL}, mappedBy = "quiz")
   @JsonProperty("questions")
   private List<Question> questions = null;
 

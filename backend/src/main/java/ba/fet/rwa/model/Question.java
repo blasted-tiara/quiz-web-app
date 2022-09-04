@@ -2,28 +2,56 @@ package ba.fet.rwa.model;
 
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+
 import java.util.ArrayList;
 import java.util.List;
 import javax.validation.Valid;
 
+@Table(name = "Question")
+@Entity
 public class Question {
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
+	@Column(name = "ID")
   @JsonProperty("id")
   private Long id = null;
 
-  @JsonProperty("order")
-  private Integer order = null;
+	@Column(name = "ORDER_NUMBER")
+  @JsonProperty("orderNumber")
+  private Integer orderNumber = null;
 
+	@Column(name = "TEXT")
   @JsonProperty("text")
   private String text = null;
 
+	@Column(name = "TIME")
   @JsonProperty("time")
   private Integer time = null;
 
+	@Column(name = "POINTS")
   @JsonProperty("points")
   private Integer points = null;
 
+  @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL}, mappedBy = "question")
   @JsonProperty("answers")
   private List<Answer> answers = null;
+  
+  @JoinColumn(name = "QUIZ")
+  @ManyToOne
+  @JsonProperty("quiz")
+  Quiz quiz = null;
 
   public Question id(Long id) {
     this.id = id;
@@ -39,18 +67,18 @@ public class Question {
     this.id = id;
   }
 
-  public Question order(Integer order) {
-    this.order = order;
+  public Question order(Integer orderNumber) {
+    this.orderNumber = orderNumber;
     return this;
   }
 
-  @JsonProperty("order")
-  public Integer getOrder() {
-    return order;
+  @JsonProperty("orderNumber")
+  public Integer getOrderNumber() {
+    return orderNumber;
   }
 
-  public void setOrder(Integer order) {
-    this.order = order;
+  public void setOrder(Integer orderNumber) {
+    this.orderNumber = orderNumber;
   }
 
   public Question text(String text) {
@@ -128,7 +156,7 @@ public class Question {
     }
     Question question = (Question) o;
     return Objects.equals(this.id, question.id) &&
-        Objects.equals(this.order, question.order) &&
+        Objects.equals(this.orderNumber, question.orderNumber) &&
         Objects.equals(this.text, question.text) &&
         Objects.equals(this.time, question.time) &&
         Objects.equals(this.points, question.points) &&
@@ -137,7 +165,7 @@ public class Question {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, order, text, time, points, answers);
+    return Objects.hash(id, orderNumber, text, time, points, answers);
   }
 
   @Override
@@ -145,7 +173,7 @@ public class Question {
     StringBuilder sb = new StringBuilder();
     sb.append("class Question {\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    order: ").append(toIndentedString(order)).append("\n");
+    sb.append("    orderNumber: ").append(toIndentedString(orderNumber)).append("\n");
     sb.append("    text: ").append(toIndentedString(text)).append("\n");
     sb.append("    time: ").append(toIndentedString(time)).append("\n");
     sb.append("    points: ").append(toIndentedString(points)).append("\n");
