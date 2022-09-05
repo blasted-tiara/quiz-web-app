@@ -41,23 +41,25 @@ public class QuizService {
         return null;
     }
     
-    public static void createQuiz(Quiz quiz) {
+    public static Quiz createNewQuiz(String title) {
         Session session = factory.openSession();
         Transaction tx = null;
-        
         try {
-            tx =  session.beginTransaction();
+            tx = session.beginTransaction();
+            Quiz quiz = new Quiz();
+            quiz.setTitle(title);
             session.persist(quiz);
-            session.flush();
             tx.commit();
-        } catch (Exception e) {
+            return quiz;
+        } catch (HibernateException e) {
             if (tx != null) {
                 tx.rollback();
             }
+            e.printStackTrace(); 
         } finally {
-            session.close(); 
+            session.close();
         }
-
+        return null;
     }
     
     public static void updateQuiz(Quiz quiz) {
