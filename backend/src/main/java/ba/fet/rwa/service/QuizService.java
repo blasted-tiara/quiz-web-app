@@ -9,6 +9,7 @@ import org.hibernate.Transaction;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.query.Query;
 
 import ba.fet.rwa.model.Quiz;
 
@@ -24,8 +25,12 @@ public class QuizService {
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            return session.createQuery("SELECT * FROM Quiz", Quiz.class).getResultList();
+            System.out.println("Transaction started");
+            Query<Quiz> query = session.createQuery("SELECT q FROM Quiz q", Quiz.class);
+            System.out.println("Query created");
+            return query.getResultList();
         } catch (HibernateException e) {
+            System.out.println("Desio se error");
             if (tx != null) {
                 tx.rollback();
             }
