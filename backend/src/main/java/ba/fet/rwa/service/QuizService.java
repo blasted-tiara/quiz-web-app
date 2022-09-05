@@ -62,11 +62,21 @@ public class QuizService {
         return null;
     }
     
-    public static void updateQuiz(Quiz quiz) {
-
-    }
-    
-    public static void deleteQuiz(Quiz quiz) {
-
-    }
+    public static void deleteQuiz(Long id) {
+        Session session = factory.openSession();
+        Transaction tx = null;
+        try {
+            tx = session.beginTransaction();
+            Quiz quiz = session.get(Quiz.class, id);
+            session.remove(quiz);
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+            e.printStackTrace(); 
+        } finally {
+            session.close();
+        }
+    } 
 }
