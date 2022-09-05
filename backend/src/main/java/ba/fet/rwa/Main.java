@@ -31,7 +31,7 @@ public class Main {
     public static HttpServer startServer() {
         // create a resource config that scans for JAX-RS resources and providers
         // in com.example package
-        final ResourceConfig rc = new ResourceConfig().packages("ba.fet.rwa");
+        final ResourceConfig rc = new ResourceConfig().packages("ba.fet.rwa.api");
 
         // create and start a new instance of grizzly http server
         // exposing the Jersey application at BASE_URI
@@ -44,33 +44,8 @@ public class Main {
      * @throws IOException
      */
     public static void main(String[] args) throws IOException {
-        final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
-        .configure() // configures settings from hibernate.cfg.xml
-        .build();
-
-        try {
-            SessionFactory factory = new MetadataSources(registry)
-                    .buildMetadata().buildSessionFactory();
-            Session session = factory.openSession();
-            Transaction transaction = session.beginTransaction();
-
-            User user = new User();
-            user.setUsername("John");
-            user.setPassword("asddfhrsgsdfgdsfa");
-
-            //session.persist(user);
-            transaction.commit();
-            session.flush();
-            session.close();
-        } catch (Exception ex) {
-            System.out.println(ex.getMessage());
-            ex.printStackTrace();
-            StandardServiceRegistryBuilder.destroy(registry);
-        
-        }
-
         final HttpServer server = startServer();
-        server.getServerConfiguration().addHttpHandler(new StaticHttpHandler("src/main/webapp"), "/");
+        server.getServerConfiguration().addHttpHandler(new StaticHttpHandler("src/main/webapp"), "/ui");
         System.out.println(String.format("Jersey app started with endpoints available at "
                 + "%s%nHit Ctrl-C to stop it...", BASE_URI));
         System.in.read();
