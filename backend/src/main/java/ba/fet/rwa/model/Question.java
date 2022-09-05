@@ -44,7 +44,7 @@ public class Question {
   @JsonProperty("points")
   private Integer points = null;
 
-  @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL}, mappedBy = "question")
+  @OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.ALL}, mappedBy = "question")
   @JsonProperty("answers")
   private List<Answer> answers = null;
   

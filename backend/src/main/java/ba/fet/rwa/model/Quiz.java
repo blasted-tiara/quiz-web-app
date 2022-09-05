@@ -41,7 +41,7 @@ public class Quiz {
   @JsonProperty("creator")
   private User creator = null;
 
-  @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL}, mappedBy = "quiz")
+  @OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.ALL}, mappedBy = "quiz")
   @JsonProperty("questions")
   private List<Question> questions = null;
 
