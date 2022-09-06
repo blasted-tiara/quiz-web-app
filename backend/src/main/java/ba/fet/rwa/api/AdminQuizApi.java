@@ -97,4 +97,21 @@ public class AdminQuizApi {
     {
         return QuizService.updateQuiz(id, title);
     }
+    
+    @GET
+    @Path("/quizzes/{id}")
+    @Produces({ "application/json" })
+    @Operation(summary = "Returns quiz by ID", description = "Returns a quiz by ID", security = {
+        @SecurityRequirement(name = "user_auth") }, tags = { "quiz" })
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "successful operation", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Quiz.class))),
+        @ApiResponse(responseCode = "400", description = "Invalid ID supplied"),
+        @ApiResponse(responseCode = "404", description = "Resource not found") })
+    public Quiz getQuizById(
+        @Parameter(in = ParameterIn.PATH, description = "Quiz ID", required = true) @PathParam("id") Long id,
+        @Context SecurityContext securityContext)
+        throws NotFoundException
+    {
+        return QuizService.getQuizById(id);
+    }
 }

@@ -97,4 +97,23 @@ public class QuizService {
         }
         return null;
     }
+    
+    public static Quiz getQuizById(Long id) {
+        Session session = factory.openSession();
+        Transaction tx = null;
+        try {
+            tx = session.beginTransaction();
+            Quiz quiz = session.get(Quiz.class, id);
+            tx.commit();
+            return quiz;
+        } catch (HibernateException e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+            e.printStackTrace(); 
+        } finally {
+            session.close();
+        }
+        return null;
+    }
 }
