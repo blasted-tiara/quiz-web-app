@@ -7,6 +7,7 @@ import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -75,5 +76,25 @@ public class AdminQuizApi {
         } catch (Exception e) {
             return Response.status(404).build();
         }
+    }
+    
+    @PUT
+    @Path("/quizzes/{id}")
+    @Consumes({ "application/x-www-form-urlencoded" })
+    @Produces({ "application/json" })
+    @Operation(summary = "Update quiz by ID", description = "", security = {
+        @SecurityRequirement(name = "user_auth") }, tags = { "quiz" })
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Updated successfully", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Quiz.class))),
+        @ApiResponse(responseCode = "400", description = "Invalid ID supplied"),
+        @ApiResponse(responseCode = "404", description = "Resource not found"),
+        @ApiResponse(responseCode = "405", description = "Validation exception") })
+    public Quiz updateQuiz(
+        @Parameter(in = ParameterIn.PATH, description = "Quiz ID", required = true) @PathParam("id") Long id,
+        @Parameter(description = "") @FormParam("title") String title,
+        @Context SecurityContext securityContext)
+        throws NotFoundException
+    {
+        return QuizService.updateQuiz(id, title);
     }
 }

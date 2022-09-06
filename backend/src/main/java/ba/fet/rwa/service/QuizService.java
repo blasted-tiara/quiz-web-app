@@ -25,12 +25,9 @@ public class QuizService {
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            System.out.println("Transaction started");
             Query<Quiz> query = session.createQuery("SELECT q FROM Quiz q", Quiz.class);
-            System.out.println("Query created");
             return query.getResultList();
         } catch (HibernateException e) {
-            System.out.println("Desio se error");
             if (tx != null) {
                 tx.rollback();
             }
@@ -79,4 +76,25 @@ public class QuizService {
             session.close();
         }
     } 
+    
+    public static Quiz updateQuiz(Long id, String title) {
+        Session session = factory.openSession();
+        Transaction tx = null;
+        try {
+            tx = session.beginTransaction();
+            Quiz quiz = session.get(Quiz.class, id);
+            quiz.setTitle(title);
+            session.merge(quiz);
+            tx.commit();
+            return quiz;
+        } catch (HibernateException e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+            e.printStackTrace(); 
+        } finally {
+            session.close();
+        }
+        return null;
+    }
 }
