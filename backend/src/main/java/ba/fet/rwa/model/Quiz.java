@@ -1,6 +1,8 @@
 package ba.fet.rwa.model;
 
 import java.util.Objects;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.CascadeType;
@@ -43,6 +45,7 @@ public class Quiz {
 
   @OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.ALL}, mappedBy = "quiz")
   @JsonProperty("questions")
+  @JsonManagedReference
   private List<Question> questions = null;
 
   public Quiz id(Long id) {

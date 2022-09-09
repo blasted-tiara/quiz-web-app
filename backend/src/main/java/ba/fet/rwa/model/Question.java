@@ -1,6 +1,8 @@
 package ba.fet.rwa.model;
 
 import java.util.Objects;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.CascadeType;
@@ -51,7 +53,12 @@ public class Question {
   @JoinColumn(name = "QUIZ")
   @ManyToOne
   @JsonProperty("quiz")
+  @JsonBackReference
   Quiz quiz = null;
+
+  public void setOrderNumber(Integer orderNumber) {
+    this.orderNumber = orderNumber;
+  }
 
   public Question id(Long id) {
     this.id = id;
@@ -191,5 +198,13 @@ public class Question {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
+  }
+
+  public Quiz getQuiz() {
+    return quiz;
+  }
+
+  public void setQuiz(Quiz quiz) {
+    this.quiz = quiz;
   }
 }
