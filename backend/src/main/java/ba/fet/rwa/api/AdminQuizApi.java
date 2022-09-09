@@ -1,5 +1,6 @@
 package ba.fet.rwa.api;
 
+import java.io.InputStream;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -15,6 +16,10 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
+import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
+import org.glassfish.jersey.media.multipart.FormDataParam;
+
+import ba.fet.rwa.model.ModelApiResponse;
 import ba.fet.rwa.model.Quiz;
 import ba.fet.rwa.service.QuizService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -113,5 +118,28 @@ public class AdminQuizApi {
         throws NotFoundException
     {
         return QuizService.getQuizById(id);
+    }
+    
+    @POST
+    @Path("/quizzes/{id}/uploadImage")
+    @Consumes({ "multipart/form-data" })
+    @Produces({ "application/json" })
+    @Operation(summary = "Uploads new quiz image", description = "", security = {
+        @SecurityRequirement(name = "user_auth") }, tags = { "quiz" })
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Image uploaded successfully", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ModelApiResponse.class)))})
+    public Response uploadFile(
+        @Parameter(in = ParameterIn.PATH, description = "Quiz ID", required = true) @PathParam("id") Long id,
+        @FormDataParam("file") InputStream fileInputStream,
+        @FormDataParam("file") FormDataContentDisposition fileDetail,
+        @Context SecurityContext securityContext)
+        throws NotFoundException
+    {
+        try {
+            QuizService.saveImage(id, fileInputStream, fileDetail);
+            return Response.status(200).build();
+        } catch (Exception e) {
+            return Response.status(404).build();
+        }
     }
 }

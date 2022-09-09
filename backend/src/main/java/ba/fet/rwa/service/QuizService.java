@@ -1,7 +1,9 @@
 package ba.fet.rwa.service;
 
+import java.io.InputStream;
 import java.util.List;
 
+import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -115,5 +117,9 @@ public class QuizService {
             session.close();
         }
         return null;
+    }
+    
+    public static void saveImage(Long id, InputStream fileInputStream, FormDataContentDisposition fileDetail) {
+        // implement when UI is ready
     }
 }
