@@ -14,7 +14,6 @@ import jakarta.persistence.Table;
 
 @Table(name = "User")
 @Entity
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaJerseyServerCodegen", date = "2022-09-02T12:22:25.331Z[GMT]")
 public class User {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
