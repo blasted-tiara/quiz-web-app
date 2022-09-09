@@ -22,7 +22,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 
 @Path("/admin")
-public class AdminQuestion {
+public class AdminQuestionApi {
     // Create new question for quiz
     @POST
     @Path("/quizzes/{quizId}/questions")
